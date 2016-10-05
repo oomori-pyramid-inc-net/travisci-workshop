@@ -17,3 +17,4 @@ deploy:
 
 notifications:
   slack: oomori:sPZTmTuSd9FLY20ZD0cttqGL
+
