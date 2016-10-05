@@ -1,4 +1,19 @@
 language: java
 script:
-  - java -jar ./bin/yuicompressor-2.4.8.jar ./css/a.css
+  - java -jar ./bin/yuicompressor-2.4.8.jar -o '.css$:-min.css' ./css/*.css
+  - mkdir -p ./min
+  - cp -a ./css/*-min.css ./min/
 
+deploy:
+  provider: s3
+  access_key_id: "${AWS_ACCESS_KEY}"
+  secret_access_key: "${AWS_SECRET_KEY}"
+  bucket: "oomori-travis-ci"
+  skip_cleanup: true
+  local_dir: "./min/"
+  upload_dir: "${TRAVIS_BRANCH}/${TRAVIS_BUILD_NUMBER}"
+  on:
+    all_branches: true
+
+notifications:
+  slack: oomori:sPZTmTuSd9FLY20ZD0cttqGL
